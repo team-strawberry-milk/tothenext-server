@@ -1,4 +1,4 @@
-package com.berry.next.account.storage;
+package com.berry.next.profile.storage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

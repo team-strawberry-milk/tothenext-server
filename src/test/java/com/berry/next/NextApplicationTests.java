@@ -2,16 +2,14 @@ package com.berry.next;
 
 import com.berry.next.account.storage.AccountEntity;
 import com.berry.next.account.storage.AccountJpaRepository;
-import com.berry.next.account.storage.LanguageEntity;
-import com.berry.next.account.storage.LanguageJpaRepository;
+import com.berry.next.profile.storage.LanguageEntity;
+import com.berry.next.profile.storage.LanguageJpaRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @DataJpaTest
 class NextApplicationTests {

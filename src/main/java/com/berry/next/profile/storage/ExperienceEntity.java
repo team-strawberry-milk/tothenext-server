@@ -1,5 +1,6 @@
-package com.berry.next.account.storage;
+package com.berry.next.profile.storage;
 
+import com.berry.next.account.storage.AccountEntity;
 import com.berry.next.common.storage.BaseDateEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
