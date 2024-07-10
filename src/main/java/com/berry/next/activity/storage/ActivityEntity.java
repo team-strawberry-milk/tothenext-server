@@ -20,8 +20,8 @@ public class ActivityEntity extends BaseEntity {
     @JoinColumn(name = "host", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private AccountEntity host;
 
-    @Column(name = "title", nullable = false, length = 128)
-    private String title;
+    //@Column(name = "title", nullable = false, length = 128)
+    //private String title;
 
     @Column(name = "title", nullable = false, length = 256)
     private String thumbnail;
@@ -35,7 +35,7 @@ public class ActivityEntity extends BaseEntity {
     @Builder
     public ActivityEntity(AccountEntity host, String title, String thumbnail, String contents, LocalDate startDate, LocalDate endDate) {
         this.host = host;
-        this.title = title;
+        //this.title = title;
         this.thumbnail = thumbnail;
         this.contents = contents;
         this.period = new Period(startDate, endDate);
