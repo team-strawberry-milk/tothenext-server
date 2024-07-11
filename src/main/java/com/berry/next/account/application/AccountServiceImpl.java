@@ -16,6 +16,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(AccountCreate create) {
+        if (accountRepository.existsByEmail(create.getEmail())) {
+            throw new IllegalArgumentException("이미 가입한 이메일입니다.");
+        }
         return accountRepository.save(AccountEntity.from(create)).to();
     }
 }

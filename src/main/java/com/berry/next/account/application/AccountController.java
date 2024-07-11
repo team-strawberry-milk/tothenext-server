@@ -2,6 +2,7 @@ package com.berry.next.account.application;
 
 import com.berry.next.account.domain.AccountCreate;
 import com.berry.next.account.domain.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class AccountController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup (
-            @RequestBody AccountCreate request
+            @Valid @RequestBody final AccountCreate request
     ) {
         return ResponseEntity.ok(accountService.createAccount(request));
     }
