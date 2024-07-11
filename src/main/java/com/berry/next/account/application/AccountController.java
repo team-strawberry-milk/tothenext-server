@@ -1,5 +1,6 @@
 package com.berry.next.account.application;
 
+import com.berry.next.account.application.dto.request.GoogleAccountReq;
 import com.berry.next.account.domain.AccountCreate;
 import com.berry.next.account.domain.AccountService;
 import jakarta.validation.Valid;
@@ -21,5 +22,12 @@ public class AccountController {
             @Valid @RequestBody final AccountCreate request
     ) {
         return ResponseEntity.ok(accountService.createAccount(request));
+    }
+
+    @PostMapping("/signup/google")
+    public ResponseEntity<?> signupWithGoogle(
+            @RequestBody final GoogleAccountReq request
+            ) {
+        return ResponseEntity.ok(accountService.createAccountByGoogle(request));
     }
 }
