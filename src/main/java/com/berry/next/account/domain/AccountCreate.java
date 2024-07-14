@@ -7,5 +7,6 @@ import lombok.Getter;
 @Getter
 public class AccountCreate {
     @Email private String email;
+    @NotBlank private String name;
     @NotBlank private String password;
 }

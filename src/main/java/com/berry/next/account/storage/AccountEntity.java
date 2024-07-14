@@ -18,6 +18,9 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "email", nullable = false, length = 96)
     private String email;
 
+    @Column(name = "name", nullable = false, length = 96)
+    private String name;
+
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
@@ -37,8 +40,9 @@ public class AccountEntity extends BaseEntity {
     }
 
     @Builder
-    public AccountEntity(String email, String password, String profile, String campus, Boolean isCampusCertificated) {
+    public AccountEntity(String email, String name, String password, String profile, String campus, Boolean isCampusCertificated) {
         this.email = email;
+        this.name = name;
         this.password = password;
         this.profile = profile;
         this.campus = campus;
@@ -48,6 +52,7 @@ public class AccountEntity extends BaseEntity {
     public static AccountEntity from(AccountCreate domain) {
         return AccountEntity.builder()
                 .email(domain.getEmail())
+                .name(domain.getName())
                 .password(domain.getPassword())
                 .profile("https://images.tothenext.xyz/profile/profile.png")
                 .build();

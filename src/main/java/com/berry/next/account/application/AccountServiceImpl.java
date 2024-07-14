@@ -12,11 +12,13 @@ import com.berry.next.external.GoogleClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
@@ -35,8 +37,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AuthGoogleDto createAccountByGoogle(GoogleAccountReq request) {
+    public Account createAccountByGoogle(GoogleAccountReq request) {
         String decode = URLDecoder.decode(request.getToken(), StandardCharsets.UTF_8);
-       return googleAuthClient.googleAuthInfo(decode, "json");
+        AuthGoogleDto googleInfo =  googleAuthClient.googleAuthInfo(decode, "json");
+        if (accountRepository.existsByEmail(googleInfo.getEmail()))  {
+            throw new IllegalArgumentException("이미 가입한 이메일입니다.");
+        }
+        return accountRepository.save(AccountEntity.builder()
+                .email(googleInfo.getEmail())
+                .campus(googleInfo.getHd())
+                .profile(googleInfo.getPicture())
+                .build()).to();
     }
 }

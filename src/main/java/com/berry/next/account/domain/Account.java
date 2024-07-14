@@ -5,15 +5,17 @@ import lombok.Getter;
 
 @Getter
 public class Account {
-    private String email;
-    private String password;
-    private String campus;
-    private String profile;
-    private Boolean isCampusCertificated;
+    private final String email;
+    private final String name;
+    private final String password;
+    private final String campus;
+    private final String profile;
+    private final Boolean isCampusCertificated;
 
     @Builder
-    public Account(String email, String password, String campus, String profile, Boolean isCampusCertificated) {
+    public Account(String email, String name, String password, String campus, String profile, Boolean isCampusCertificated) {
         this.email = email;
+        this.name = name;
         this.password = password;
         this.campus = campus;
         this.profile = profile;

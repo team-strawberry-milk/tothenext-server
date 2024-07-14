@@ -1,8 +1,9 @@
 package com.berry.next.account.application.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
 public class GoogleAccountReq {
-    private String token;
+    @NotBlank private String token;
 }
