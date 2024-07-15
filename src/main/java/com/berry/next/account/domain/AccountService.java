@@ -6,4 +6,6 @@ public interface AccountService {
     Account createAccount(AccountCreate create);
 
     Account createAccountByGoogle(GoogleAccountReq request);
+
+    Account authorize(AccountAuthorize request);
 }

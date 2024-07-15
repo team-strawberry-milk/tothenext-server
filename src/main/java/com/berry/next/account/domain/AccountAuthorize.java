@@ -5,12 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class AccountCreate {
+public class AccountAuthorize {
     @Email private String email;
-    @NotBlank private String name;
     @NotBlank private String password;
-
-    public void setPassword(String s) {
-        this.password = s;
-    }
 }
