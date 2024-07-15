@@ -39,7 +39,7 @@ jobs:
 
 
       - name: create application.yml in domain
-        run: touch ./q-domain/src/main/resources/application-prod.yml
+        run: touch ./src/main/resources/application.yml
           && echo "${{secrets.APPLICATION_DOMAIN}}" > ./src/main/resources/application.yml
 
       - uses: actions/upload-artifact@v2
