@@ -1,4 +1,4 @@
-REPOSITORY=/home/ubuntu/app
+REPOSITORY=/home/ubuntu/tothenext
 cd $REPOSITORY
 
 CURRENT_CONTAINER=$(sudo docker ps -aq --filter "name=tothenext-server")
