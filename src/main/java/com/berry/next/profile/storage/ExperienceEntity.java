@@ -1,6 +1,7 @@
 package com.berry.next.profile.storage;
 
 import com.berry.next.account.storage.AccountEntity;
+import com.berry.next.common.storage.BaseEntity;
 import com.berry.next.common.storage.Period;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "experience")
-public class ExperienceEntity extends Period {
+public class ExperienceEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private AccountEntity account;
