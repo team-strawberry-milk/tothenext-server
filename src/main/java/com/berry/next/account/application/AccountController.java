@@ -48,4 +48,12 @@ public class AccountController {
     ) {
         return ResponseEntity.ok(jwtService.issue(accountService.authorizeWithGoogle(request).getId()));
     }
+
+    @PostMapping("/verity/school")
+    public ResponseEntity<?> verifySchool(
+            @RequestBody final GoogleAccountReq request
+    ) {
+        accountService.verifySchool(request);
+        return ResponseEntity.ok("인증에 성공하였습니다.");
+    }
 }

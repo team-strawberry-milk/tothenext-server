@@ -12,4 +12,6 @@ public interface AccountService {
     Account authorize(AccountAuthorize request);
 
     Account authorizeWithGoogle(GoogleAccountReq request);
+
+    String verifySchool(GoogleAccountReq request);
 }
