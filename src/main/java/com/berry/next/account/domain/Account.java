@@ -9,9 +9,18 @@ public class Account {
     private final String email;
     private final String name;
     private final String password;
-    private final String campus;
-    private final String profile;
-    private final Boolean isCampusCertificated;
+    private String campus;
+    private String profile;
+    private Boolean isCampusCertificated;
+
+    void certifyCampus(String campus) {
+        this.campus = campus;
+        this.isCampusCertificated = Boolean.TRUE;
+    }
+
+    void changeProfile(String profile) {
+        this.profile = profile;
+    }
 
     @Builder
     public Account(Long id, String email, String name, String password, String campus, String profile, Boolean isCampusCertificated) {

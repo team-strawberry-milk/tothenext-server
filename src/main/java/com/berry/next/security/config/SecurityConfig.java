@@ -43,8 +43,10 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/accounts/*").permitAll()
-                                .anyRequest().permitAll())
+                                .requestMatchers("/accounts/signup/**").permitAll()
+                                .requestMatchers("/accounts/signin/**").permitAll()
+                                // .requestMatchers("/accounts/me").authenticated()
+                                .anyRequest().authenticated())
                 .addFilter(cors.securityCorsFilter())
                 .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

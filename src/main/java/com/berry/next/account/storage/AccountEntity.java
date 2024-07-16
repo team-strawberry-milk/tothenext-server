@@ -15,6 +15,7 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Table(name = "account")
 public class AccountEntity extends BaseEntity {
+
     @Column(name = "email", nullable = false, length = 96)
     private String email;
 
@@ -60,6 +61,7 @@ public class AccountEntity extends BaseEntity {
 
     public Account to() {
         return Account.builder()
+                .id(getId())
                 .email(email)
                 .password(password)
                 .profile(profile)

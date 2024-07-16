@@ -35,7 +35,7 @@ public class AuthAccountArgumentResolver implements HandlerMethodArgumentResolve
             return null;
         }
 
-        return accountRepository.findByEmail(authentication.getName())
+        return accountRepository.findById(Long.valueOf(authentication.getName()))
                 .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 계정의 접근입니다."))
                 .to();
     }
