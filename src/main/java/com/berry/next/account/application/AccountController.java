@@ -2,10 +2,7 @@ package com.berry.next.account.application;
 
 import com.berry.next.account.application.dto.request.GoogleAccountReq;
 import com.berry.next.account.application.dto.response.AccountRes;
-import com.berry.next.account.domain.Account;
-import com.berry.next.account.domain.AccountAuthorize;
-import com.berry.next.account.domain.AccountCreate;
-import com.berry.next.account.domain.AccountService;
+import com.berry.next.account.domain.*;
 import com.berry.next.security.domain.AuthAccount;
 import com.berry.next.security.domain.Token;
 import com.berry.next.security.service.JwtService;
@@ -64,5 +61,12 @@ public class AccountController {
         return ResponseEntity.ok(AccountRes.from(account));
     }
 
-    
+    @PutMapping("/me")
+    public ResponseEntity<AccountRes> modifyAccount(
+            @AuthAccount Account account,
+            @RequestBody AccountModify req
+    ) {
+        return ResponseEntity.ok(AccountRes.from(accountService.modify(account, req)));
+    }
+
 }

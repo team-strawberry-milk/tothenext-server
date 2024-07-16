@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
+
 
 @Entity
 @Getter
@@ -57,6 +57,12 @@ public class AccountEntity extends BaseEntity {
                 .password(domain.getPassword())
                 .profile("https://images.tothenext.xyz/profile/profile.png")
                 .build();
+    }
+
+    public void update(Account account) {
+        this.password = account.getPassword();
+        this.profile = account.getProfile();
+        this.name = account.getName();
     }
 
     public Account to() {

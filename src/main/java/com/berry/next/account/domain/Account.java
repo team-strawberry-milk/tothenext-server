@@ -7,19 +7,27 @@ import lombok.Getter;
 public class Account {
     private final Long id;
     private final String email;
-    private final String name;
-    private final String password;
+    private String name;
+    private String password;
     private String campus;
     private String profile;
     private Boolean isCampusCertificated;
 
-    void certifyCampus(String campus) {
+    public void certifyCampus(String campus) {
         this.campus = campus;
         this.isCampusCertificated = Boolean.TRUE;
     }
 
-    void changeProfile(String profile) {
-        this.profile = profile;
+    public void changeProfile(final AccountModify modify) {
+        if (modify.getName() != null && !modify.getName().isEmpty()) {
+            this.name = modify.getName();
+        }
+        if (modify.getProfile() != null && !modify.getProfile().isEmpty()) {
+            this.profile = modify.getProfile();
+        }
+        if (modify.getPassword() != null && !modify.getPassword().isEmpty()) {
+            this.password = modify.getPassword();
+        }
     }
 
     @Builder

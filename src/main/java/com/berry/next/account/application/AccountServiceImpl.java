@@ -1,10 +1,7 @@
 package com.berry.next.account.application;
 
 import com.berry.next.account.application.dto.request.GoogleAccountReq;
-import com.berry.next.account.domain.Account;
-import com.berry.next.account.domain.AccountAuthorize;
-import com.berry.next.account.domain.AccountCreate;
-import com.berry.next.account.domain.AccountService;
+import com.berry.next.account.domain.*;
 import com.berry.next.account.storage.AccountEntity;
 import com.berry.next.account.storage.AccountJpaRepository;
 import com.berry.next.external.AuthGoogleDto;
@@ -79,5 +76,19 @@ public class AccountServiceImpl implements AccountService {
         String decode = URLDecoder.decode(request.getToken(), StandardCharsets.UTF_8);
         AuthGoogleDto googleInfo =  googleAuthClient.googleAuthInfo(decode, "json");
         return googleInfo.getHd();
+    }
+
+    @Override
+    public Account modify(Account account, AccountModify req) {
+        if (req.getPassword() != null && !passwordService.isValidPassword(account.getPassword(), req.getPassword())) {
+            req.encryptPassword(passwordService.encryptPassword(req.getPassword()));
+        }
+        account.changeProfile(req);
+
+        accountRepository.findById(account.getId())
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 접근입니다."))
+                .update(account);
+
+        return account;
     }
 }
