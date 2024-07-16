@@ -36,9 +36,16 @@ public class AccountController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<Token> signin(
+    public ResponseEntity<Token> signIn(
             @RequestBody final AccountAuthorize request
     ) {
         return ResponseEntity.ok(jwtService.issue(accountService.authorize(request).getId()));
+    }
+
+    @PostMapping("/signin/google")
+    public ResponseEntity<Token> signInWithGoogle(
+            @RequestBody final GoogleAccountReq request
+    ) {
+        return ResponseEntity.ok(jwtService.issue(accountService.authorizeWithGoogle(request).getId()));
     }
 }

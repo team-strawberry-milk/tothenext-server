@@ -65,4 +65,12 @@ public class AccountServiceImpl implements AccountService {
         }
         return account;
     }
+
+    @Override
+    public Account authorizeWithGoogle(GoogleAccountReq request) {
+        String decode = URLDecoder.decode(request.getToken(), StandardCharsets.UTF_8);
+        AuthGoogleDto googleInfo =  googleAuthClient.googleAuthInfo(decode, "json");
+        return accountRepository.findByEmail(googleInfo.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 계정입니다.")).to();
+    }
 }
