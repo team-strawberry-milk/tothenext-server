@@ -16,7 +16,7 @@ public class AccountRes {
     public static AccountRes from(Account domain) {
         return AccountRes.builder()
                 .id(domain.getId())
-                .email(domain.getCampus())
+                .email(domain.getEmail())
                 .name(domain.getName())
                 .campus(domain.getCampus())
                 .profile(domain.getProfile())

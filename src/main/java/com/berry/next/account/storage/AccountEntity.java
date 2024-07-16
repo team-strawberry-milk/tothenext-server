@@ -63,6 +63,7 @@ public class AccountEntity extends BaseEntity {
         return Account.builder()
                 .id(getId())
                 .email(email)
+                .name(name)
                 .password(password)
                 .profile(profile)
                 .campus(campus)

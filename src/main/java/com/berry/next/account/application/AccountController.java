@@ -61,6 +61,7 @@ public class AccountController {
     public ResponseEntity<AccountRes> getAccountInformation(
             @AuthAccount Account account
     ) {
+        System.out.println(account.getEmail());
         return ResponseEntity.ok(AccountRes.from(account));
     }
 }
