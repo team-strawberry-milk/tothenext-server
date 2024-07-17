@@ -4,17 +4,22 @@ import com.berry.next.account.domain.Account;
 import com.berry.next.account.domain.AccountCreate;
 import com.berry.next.common.storage.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.*;
+
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "account")
+@SQLDelete(sql = "UPDATE account SET is_deleted = true WHERE id = ?")
+@FilterDef(name = "deletedAccountFilter")
+@Filter(name = "deletedAccountFilter", condition = "is_deleted = false")
 public class AccountEntity extends BaseEntity {
+
     @Column(name = "email", nullable = false, length = 96)
     private String email;
 
@@ -34,9 +39,14 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "is_campus_certificated", nullable = false)
     private Boolean isCampusCertificated;
 
+    @ColumnDefault("0")
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     @PrePersist
     public void prePersist() {
         this.isCampusCertificated = this.isCampusCertificated == null ? Boolean.FALSE : Boolean.TRUE;
+        this.isDeleted = this.isDeleted == null ? Boolean.FALSE : Boolean.TRUE;
     }
 
     @Builder
@@ -58,9 +68,26 @@ public class AccountEntity extends BaseEntity {
                 .build();
     }
 
+    public void update(Account account) {
+        this.password = account.getPassword();
+        this.profile = account.getProfile();
+        this.name = account.getName();
+    }
+
+    public void certifyCampus(Account account) {
+        this.campus = account.getCampus();
+        this.isCampusCertificated = account.getIsCampusCertificated();
+    }
+
+    public void delete() {
+        this.isDeleted = Boolean.TRUE;
+    }
+
     public Account to() {
         return Account.builder()
+                .id(getId())
                 .email(email)
+                .name(name)
                 .password(password)
                 .profile(profile)
                 .campus(campus)
