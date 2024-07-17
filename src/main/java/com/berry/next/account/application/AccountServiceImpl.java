@@ -102,8 +102,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void remove(Account account) {
-        accountRepository.findById(account.getId())
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 접근입니다."))
-                .delete();
+        accountRepository.delete(
+                accountRepository.findById(account.getId()).orElseThrow()
+        );
     }
 }
