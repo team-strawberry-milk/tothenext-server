@@ -16,4 +16,6 @@ public interface AccountService {
     String verifySchool(GoogleAccountReq request);
 
     Account modify(Account account, AccountModify req);
+
+    void remove(Account account);
 }

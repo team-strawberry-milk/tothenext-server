@@ -54,6 +54,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account authorize(AccountAuthorize request) {
         Account account = accountRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 계정입니다.")).to();
@@ -64,6 +65,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account authorizeWithGoogle(GoogleAccountReq request) {
         String decode = URLDecoder.decode(request.getToken(), StandardCharsets.UTF_8);
         AuthGoogleDto googleInfo =  googleAuthClient.googleAuthInfo(decode, "json");
@@ -90,5 +92,12 @@ public class AccountServiceImpl implements AccountService {
                 .update(account);
 
         return account;
+    }
+
+    @Override
+    public void remove(Account account) {
+        accountRepository.findById(account.getId())
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 접근입니다."))
+                .delete();
     }
 }

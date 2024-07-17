@@ -69,4 +69,12 @@ public class AccountController {
         return ResponseEntity.ok(AccountRes.from(accountService.modify(account, req)));
     }
 
+    @DeleteMapping("/me")
+    public ResponseEntity<?> removeAccount(
+            @AuthAccount Account account
+    ) {
+        accountService.remove(account);
+        return ResponseEntity.ok("정상적으로 삭제되었습니다.");
+    }
+
 }
