@@ -48,15 +48,16 @@ public class AccountController {
 
     @PostMapping("/verity/school")
     public ResponseEntity<?> verifySchool(
+            @AuthAccount Account account,
             @RequestBody final GoogleAccountReq request
     ) {
-        accountService.verifySchool(request);
+        accountService.verifySchool(account, request);
         return ResponseEntity.ok("인증에 성공하였습니다.");
     }
 
     @GetMapping("/me")
     public ResponseEntity<AccountRes> getAccountInformation(
-            @AuthAccount Account account
+            @AuthAccount final Account account
     ) {
         return ResponseEntity.ok(AccountRes.from(account));
     }

@@ -74,6 +74,11 @@ public class AccountEntity extends BaseEntity {
         this.name = account.getName();
     }
 
+    public void certifyCampus(Account account) {
+        this.campus = account.getCampus();
+        this.isCampusCertificated = account.getIsCampusCertificated();
+    }
+
     public void delete() {
         this.isDeleted = Boolean.TRUE;
     }

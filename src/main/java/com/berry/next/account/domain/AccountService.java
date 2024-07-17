@@ -13,7 +13,7 @@ public interface AccountService {
 
     Account authorizeWithGoogle(GoogleAccountReq request);
 
-    String verifySchool(GoogleAccountReq request);
+    Account verifySchool(Account account, GoogleAccountReq request);
 
     Account modify(Account account, AccountModify req);
 

@@ -74,10 +74,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String verifySchool(GoogleAccountReq request) {
+    public Account verifySchool(Account account, GoogleAccountReq request) {
         String decode = URLDecoder.decode(request.getToken(), StandardCharsets.UTF_8);
         AuthGoogleDto googleInfo =  googleAuthClient.googleAuthInfo(decode, "json");
-        return googleInfo.getHd();
+        account.certifyCampus(googleInfo.getHd());
+
+        accountRepository.findById(account.getId())
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 접근입니다."))
+                .certifyCampus(account);
+
+        return account;
     }
 
     @Override

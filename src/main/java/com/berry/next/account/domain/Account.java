@@ -13,7 +13,7 @@ public class Account {
     private String profile;
     private Boolean isCampusCertificated;
 
-    public void certifyCampus(String campus) {
+    public void certifyCampus(final String campus) {
         this.campus = campus;
         this.isCampusCertificated = Boolean.TRUE;
     }
