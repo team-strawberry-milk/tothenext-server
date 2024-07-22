@@ -1,5 +1,6 @@
 package com.berry.next.activity.storage;
 
+import com.berry.next.activity.domain.ActivityCreate;
 import com.berry.next.common.storage.ActivityType;
 import com.berry.next.common.storage.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -33,4 +34,15 @@ public class ActivityDetailEntity extends BaseTimeEntity {
         this.title = title;
         this.detail = detail;
     }
+
+    public static ActivityDetailEntity from(ActivityEntity activityEntity, ActivityCreate domain) {
+        return ActivityDetailEntity.builder()
+                .activity(activityEntity)
+                .title(domain.getTitle()) // ActivityCreate에서 title 정보 가져오기
+                .detail(domain.getContents()) // ActivityCreate에서 contents 정보를 detail로 가져오기
+                .build();
+    }
+
+    // detail은 잘 모르겠으니 일단 보류
+
 }
