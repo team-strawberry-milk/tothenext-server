@@ -1,10 +1,12 @@
 package com.berry.next.activity.storage;
 
+import com.berry.next.common.storage.ActivityType;
 import com.berry.next.common.storage.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -21,8 +23,12 @@ public class ActivityDetailEntity extends BaseTimeEntity {
     @Column(name = "detail", nullable = false, columnDefinition = "text")
     private String detail;
 
+    @ColumnDefault("0")
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     @Builder
-    public ActivityDetailEntity(ActivityEntity activity, String title, String detail) {
+    public ActivityDetailEntity(ActivityEntity activity, ActivityType type, String title, String detail, Integer limit) {
         this.activity = activity;
         this.title = title;
         this.detail = detail;
