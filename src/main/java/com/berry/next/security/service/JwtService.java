@@ -39,7 +39,7 @@ public class JwtService {
                 .build();
     }
 
-    public ResponseCookie generateCookie(String token) throws UnsupportedEncodingException {
-        return cookieUtil.generateCookie(token);
+    public String generateCookie(String token) throws UnsupportedEncodingException {
+        return cookieUtil.generateCookie(token).toString();
     }
 }

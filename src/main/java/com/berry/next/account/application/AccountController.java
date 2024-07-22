@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/accounts")
@@ -35,8 +37,11 @@ public class AccountController {
     @PostMapping("/signin")
     public ResponseEntity<Token> signIn(
             @RequestBody final AccountAuthorize request
-    ) {
-        return ResponseEntity.ok(jwtService.issue(accountService.authorize(request).getId()));
+    ) throws UnsupportedEncodingException {
+        Token token = jwtService.issue(accountService.authorize(request).getId());
+        return ResponseEntity.ok()
+                .header("Set-Cookie", jwtService.generateCookie(token.refreshToken()))
+                .body(token);
     }
 
     @PostMapping("/signin/google")
