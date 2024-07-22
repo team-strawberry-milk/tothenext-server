@@ -57,4 +57,50 @@ public class ActivityEntity extends BaseEntity {
         this.limit = limit;
         this.period = new Period(startDate, endDate);
     }
+
+    // ActivityCreate를 ActivityEntity로 변환 (AccountEntity는 그대로 사용)
+    public static ActivityEntity from(ActivityCreate create, AccountEntity hostEntity) {
+        return ActivityEntity.builder()
+                .host(hostEntity)
+                .type(create.getType())
+                .title(create.getTitle())
+                .thumbnail("https://images.tothenext.xyz/profile/profile.png")
+                .contents(create.getContents())
+                .limit(create.getLimit())
+                .startDate(create.getStartDate())
+                .endDate(create.getEndDate())
+                .build();
+    }
+
+    public static ActivityEntity fromDomain(Activity activity, AccountEntity hostEntity) {
+        return ActivityEntity.builder()
+                .host(hostEntity)
+                .title(activity.getTitle())
+                .type(activity.getType())
+                .thumbnail(activity.getThumbnail())
+                .contents(activity.getContents())
+                .limit(activity.getLimit())
+                .startDate(activity.getPeriod().getStartDate())
+                .endDate(activity.getPeriod().getEndDate())
+                .build();
+    }
+
+    // ActivityEntity를 Activity 도메인 객체로 변환
+    public Activity to() {
+        return Activity.builder()
+                .id(getId())
+                .host(host.to())
+                .type(type)
+                .title(title)
+                .thumbnail(thumbnail)
+                .contents(contents)
+                .limit(limit)
+                .period(period)
+                .build();
+    }
+
+    // 삭제
+    public void delete() {
+        this.isDeleted = Boolean.TRUE;
+    }
 }
