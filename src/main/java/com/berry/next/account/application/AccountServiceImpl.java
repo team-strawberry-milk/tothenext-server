@@ -100,8 +100,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void remove(Account account) {
-        accountRepository.delete(
-                accountRepository.findById(account.getId()).orElseThrow()
-        );
+        accountRepository.deleteById(account.getId());
     }
 }
