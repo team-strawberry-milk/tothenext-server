@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityManager;
 
+/*
 @Aspect
 @Component
 @RequiredArgsConstructor
@@ -22,3 +23,5 @@ public class HibernateFilterAspect {
         session.enableFilter("deletedAccountFilter");
     }
 }
+
+ */

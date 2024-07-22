@@ -16,8 +16,7 @@ import org.hibernate.annotations.*;
 @NoArgsConstructor
 @Table(name = "account")
 @SQLDelete(sql = "UPDATE account SET is_deleted = true WHERE id = ?")
-@FilterDef(name = "deletedAccountFilter")
-@Filter(name = "deletedAccountFilter", condition = "is_deleted = false")
+@SQLRestriction("is_deleted = false")
 public class AccountEntity extends BaseEntity {
 
     @Column(name = "email", nullable = false, length = 96)
