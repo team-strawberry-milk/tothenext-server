@@ -9,6 +9,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 @Service
@@ -32,7 +34,7 @@ public class JwtService {
 
 
     public Token reissue(String bearerToken) {
-        String token = jwtUtil.getTokenString(bearerToken);
+        String token = jwtUtil.getTokenString(URLDecoder.decode(bearerToken, StandardCharsets.UTF_8));
         String id = redisUtil.getValues(token);
         return Token.builder()
                 .accessToken(jwtUtil.generateToken(id, ACCESS_TOKEN_EXPIRE_TIME))

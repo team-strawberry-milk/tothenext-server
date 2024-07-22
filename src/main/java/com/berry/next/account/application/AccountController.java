@@ -6,6 +6,7 @@ import com.berry.next.account.domain.*;
 import com.berry.next.security.domain.AuthAccount;
 import com.berry.next.security.domain.Token;
 import com.berry.next.security.service.JwtService;
+import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,13 @@ public class AccountController {
             @RequestBody final GoogleAccountReq request
     ) {
         return ResponseEntity.ok(jwtService.issue(accountService.authorizeWithGoogle(request).getId()));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<Token> reissue(
+            @CookieValue(value = "refreshToken") Cookie cookie
+    ) {
+        return ResponseEntity.ok(jwtService.reissue(cookie.getValue()));
     }
 
     @PostMapping("/verity/school")
