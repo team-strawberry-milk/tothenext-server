@@ -35,8 +35,8 @@ public class ActivityRes {
                 .id(activity.getId())
                 .host(AccountRes.from(activity.getHost()))
                 .title(activity.getTitle())
-                .startDate(activity.getPeriod().getStartDate())
-                .endDate(activity.getPeriod().getEndDate())
+                .startDate(activity.getStartDate())
+                .endDate(activity.getEndDate())
                 .thumbnail(activity.getThumbnail())
                 .type(activity.getType())
                 .build();
