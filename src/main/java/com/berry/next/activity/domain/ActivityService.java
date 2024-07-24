@@ -10,7 +10,7 @@ public interface ActivityService {
 
     Activity modifyActivity(Account account,ActivityModify req);
 
-    void remove(Account account, Activity activity);
+    void remove(Account account, Long activityId);
 
     List<Activity> getAllActivities();
 

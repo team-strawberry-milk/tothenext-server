@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
 
@@ -18,6 +20,8 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @Table(name = "activity")
+@SQLDelete(sql = "UPDATE activity SET is_deleted = true WHERE id = ?")
+@SQLRestriction("select * from activity where is_deleted = false")
 public class ActivityEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -103,10 +107,5 @@ public class ActivityEntity extends BaseEntity {
                 .startDate(period.getStartDate())
                 .endDate(period.getEndDate())
                 .build();
-    }
-
-    // 삭제
-    public void delete() {
-        this.isDeleted = Boolean.TRUE;
     }
 }

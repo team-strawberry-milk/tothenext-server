@@ -1,7 +1,6 @@
 package com.berry.next.activity.application;
 
 import com.berry.next.account.domain.Account;
-import com.berry.next.account.storage.AccountEntity;
 import com.berry.next.account.storage.AccountJpaRepository;
 import com.berry.next.activity.domain.Activity;
 import com.berry.next.activity.domain.ActivityCreate;
@@ -42,25 +41,22 @@ public class ActivityServiceImpl implements ActivityService {
     public Activity modifyActivity(Account account, ActivityModify req) {
         Activity activity = activityRepository.findById(req.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found")).to();
-
-        if (!activity.getHost().getId().equals(account.getId())) {
-            throw new AccessDeniedException("해당 대외활동을 수정할 권한이 없습니다.");
-        }
-
+        validateHost(account, activity.getHost());
         return activityRepository.save(ActivityEntity.from(activity)).to();
     }
 
-
     @Override
-    public void remove(Account account, Activity activity) {
+    public void remove(Account account, Long activityId) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found")).to();
+        validateHost(account, activity.getHost());
+        activityRepository.deleteById(activity.getId());
+    }
 
-        if (!activity.getHost().equals(account)) {
-            throw new AccessDeniedException("해당 대외활동을 삭제할 권한이 없습니다.");
+    public void validateHost(Account account, Account host) {
+        if (!host.equals(account)) {
+            throw new AccessDeniedException("해당 대외활동에 대한 권한이 없습니다.");
         }
-
-        activityRepository.findById(activity.getId())
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 접근입니다."))
-                .delete();
     }
 
     @Override

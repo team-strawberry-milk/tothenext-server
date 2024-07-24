@@ -1,11 +1,9 @@
 package com.berry.next.activity.application;
 
 import com.berry.next.account.domain.Account;
-import com.berry.next.account.domain.AccountCreate;
-import com.berry.next.activity.application.dto.request.ActivityPostReq;
 import com.berry.next.activity.application.dto.response.ActivityDetailRes;
 import com.berry.next.activity.application.dto.response.ActivityRes;
-import com.berry.next.activity.domain.Activity;
+import com.berry.next.activity.domain.ActivityCreate;
 import com.berry.next.activity.domain.ActivityService;
 import com.berry.next.security.service.JwtService;
 import jakarta.validation.Valid;
@@ -54,11 +52,14 @@ public class ActivityController {
     @PostMapping()
     public ResponseEntity<ActivityRes> createActivity(
             @AuthAccount Account account,
-            @RequestBody @Valid AccountCreate req
+            @RequestBody @Valid ActivityCreate req
     ) {
-        Activity activity = activityService.createActivity(account, req);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ActivityRes.from(activity));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ActivityRes.from(activityService.createActivity(account, req)));
     }
+
+
 
 
 
