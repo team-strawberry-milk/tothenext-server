@@ -29,15 +29,13 @@ import java.util.stream.Collectors;
 public class ActivityServiceImpl implements ActivityService {
 
     private final ActivityJpaRepository activityRepository;
-    private final ActivityDetailJpaRepository activitydatailReopsitory;
+    private final ActivityDetailJpaRepository activityDetailRepository;
     private final AccountJpaRepository accountRepository;
 
     @Override
-    public Activity createActivity(ActivityCreate create) {
-        AccountEntity hostEntity = accountRepository.findById(create.getHost().getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
-
-        return activityRepository.save(ActivityEntity.from(create, hostEntity)).to();
+    public Activity createActivity(Account account, ActivityCreate create) {
+        Activity activity = Activity.from(create, account);
+        return activityRepository.save(ActivityEntity.from(activity)).to();
     }
 
     @Override
