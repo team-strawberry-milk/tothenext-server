@@ -1,6 +1,7 @@
 package com.berry.next.activity.application;
 
 import com.berry.next.account.domain.Account;
+import com.berry.next.account.domain.AccountCreate;
 import com.berry.next.activity.application.dto.request.ActivityPostReq;
 import com.berry.next.activity.application.dto.response.ActivityDetailRes;
 import com.berry.next.activity.application.dto.response.ActivityRes;
@@ -25,40 +26,37 @@ public class ActivityController {
     private final ActivityService activityService;
     private final JwtService jwtService;
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<ActivityRes>> getActivityList() {
-        List<Activity> activities = activityService.getAllActivities();
-
-        List<ActivityRes> activityResList = activities.stream()
-                .map(ActivityRes::from) // Activity를 ActivityRes로 변환
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(activityResList);
+        return ResponseEntity.ok(
+                activityService.getAllActivities().stream()
+                .map(ActivityRes::from)
+                .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/home")
     public ResponseEntity<List<ActivityRes>> getActivityRecentList() {
-        List<Activity> activities = activityService.getRecentActivities();
-
-        List<ActivityRes> activityResList = activities.stream()
-                .map(ActivityRes::from) // Activity를 ActivityRes로 변환
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(activityResList);
+        return ResponseEntity.ok(
+                activityService.getRecentActivities().stream()
+                .map(ActivityRes::from)
+                .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDetailRes> getActivityById(@PathVariable Long id) {
-        Activity activity = activityService.getActivityById(id); // ID로 활동 조회
-        return ResponseEntity.ok(ActivityDetailRes.from(activity));
+        return ResponseEntity.ok(
+                ActivityDetailRes.from(activityService.getActivityById(id))
+        );
     }
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<ActivityRes> createActivity(
-            @AuthAccount Account account, // 인증된 사용자 정보 가져오기
-            @RequestBody @Valid ActivityPostReq req
+            @AuthAccount Account account,
+            @RequestBody @Valid AccountCreate req
     ) {
-        Activity activity = activityService.createActivity(req.to(account)); // ActivityCreate 객체 생성 및 전달
+        Activity activity = activityService.createActivity(account, req);
         return ResponseEntity.status(HttpStatus.CREATED).body(ActivityRes.from(activity));
     }
 
