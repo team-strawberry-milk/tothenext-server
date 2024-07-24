@@ -42,6 +42,7 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = activityRepository.findById(req.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found")).to();
         validateHost(account, activity.getHost());
+        activity.update(req);
         return activityRepository.save(ActivityEntity.from(activity)).to();
     }
 
