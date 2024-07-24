@@ -34,7 +34,7 @@ public class Activity {
     }
 
 
-    public void changeActivity(final ActivityModify modify) {
+    public void update(final ActivityModify modify) {
         if (modify.getTitle() != null && !modify.getTitle().isEmpty()) {
             this.title = modify.getTitle();
         }
