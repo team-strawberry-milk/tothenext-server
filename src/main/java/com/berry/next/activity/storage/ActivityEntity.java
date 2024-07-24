@@ -24,6 +24,9 @@ public class ActivityEntity extends BaseEntity {
     @JoinColumn(name = "host", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private AccountEntity host;
 
+    @Column(name = "host", nullable = false)
+    private Long hostId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, columnDefinition = "text")
     private ActivityType type;
@@ -48,8 +51,8 @@ public class ActivityEntity extends BaseEntity {
     private String title; // title 필드 추가
 
     @Builder
-    public ActivityEntity(AccountEntity host, ActivityType type, String title, String thumbnail, String contents, Integer limit, LocalDate startDate, LocalDate endDate) {
-        this.host = host;
+    public ActivityEntity(Long host, ActivityType type, String title, String thumbnail, String contents, Integer limit, LocalDate startDate, LocalDate endDate) {
+        this.hostId = host;
         this.type = type;
         this.title = title;
         this.thumbnail = thumbnail;
@@ -58,10 +61,9 @@ public class ActivityEntity extends BaseEntity {
         this.period = new Period(startDate, endDate);
     }
 
-    // ActivityCreate를 ActivityEntity로 변환 (AccountEntity는 그대로 사용)
-    public static ActivityEntity from(ActivityCreate create, AccountEntity hostEntity) {
+    public static ActivityEntity from(ActivityCreate create) {
         return ActivityEntity.builder()
-                .host(hostEntity)
+                .host(create.getHost().getId())
                 .type(create.getType())
                 .title(create.getTitle())
                 .thumbnail("https://images.tothenext.xyz/profile/profile.png")
@@ -72,16 +74,17 @@ public class ActivityEntity extends BaseEntity {
                 .build();
     }
 
-    public static ActivityEntity fromDomain(Activity activity, AccountEntity hostEntity) {
+    public static ActivityEntity from(Activity activity) {
         return ActivityEntity.builder()
-                .host(hostEntity)
+                .host(activity.getId())
                 .title(activity.getTitle())
                 .type(activity.getType())
                 .thumbnail(activity.getThumbnail())
                 .contents(activity.getContents())
                 .limit(activity.getLimit())
-                .startDate(activity.getPeriod().getStartDate())
-                .endDate(activity.getPeriod().getEndDate())
+                .startDate(activity.getStartDate())
+                .endDate(activity.getEndDate())
+                .host(activity.getHost().getId())
                 .build();
     }
 
@@ -95,7 +98,8 @@ public class ActivityEntity extends BaseEntity {
                 .thumbnail(thumbnail)
                 .contents(contents)
                 .limit(limit)
-                .period(period)
+                .startDate(period.getStartDate())
+                .endDate(period.getEndDate())
                 .build();
     }
 

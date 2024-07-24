@@ -6,6 +6,8 @@ import com.berry.next.common.storage.Period;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Getter
 public class Activity {
     private Long id;
@@ -13,9 +15,23 @@ public class Activity {
     private final Account host;
     private ActivityType type;
     private Integer limit;
-    private Period period;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String contents;
     private String thumbnail;
+
+    public static Activity from(ActivityCreate create, Account account) {
+        return Activity.builder()
+                .title(create.getTitle())
+                .host(account)
+                .type(create.getType())
+                .limit(create.getLimit())
+                .startDate(create.getStartDate())
+                .endDate(create.getEndDate())
+                .contents(create.getContents())
+                .thumbnail(create.getThumbnail())
+                .build();
+    }
 
 
     public void changeActivity(final ActivityModify modify) {
@@ -28,9 +44,12 @@ public class Activity {
         if (modify.getLimit() != null) {
             this.limit = modify.getLimit();
         }
+        /*
         if (modify.getStartDate() != null || modify.getEndDate() != null) {
             this.period = new Period(modify.getStartDate(), modify.getEndDate());
         }
+
+         */
         if (modify.getContents() != null && !modify.getContents().isEmpty()) {
             this.contents = modify.getContents();
         }
@@ -40,13 +59,14 @@ public class Activity {
     }
 
     @Builder
-    public Activity(Long id, ActivityType type, Account host, Integer limit, String title, Period period, String contents, String thumbnail) {
+    public Activity(Long id, String title, Account host, ActivityType type, Integer limit, LocalDate startDate, LocalDate endDate, String contents, String thumbnail) {
         this.id = id;
+        this.title = title;
         this.host = host;
         this.type = type;
         this.limit = limit;
-        this.title = title;
-        this.period = period;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.contents = contents;
         this.thumbnail = thumbnail;
     }
