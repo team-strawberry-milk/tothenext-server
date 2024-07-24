@@ -41,6 +41,7 @@ public class ActivityEntity extends BaseEntity {
     @Column(name = "contents", nullable = false, columnDefinition = "text")
     private String contents;
 
+    @ColumnDefault("1")
     @Column(name = "limit", columnDefinition = "int")
     private Integer limit;
 
