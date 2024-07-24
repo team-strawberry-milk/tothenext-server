@@ -51,7 +51,8 @@ public class ActivityEntity extends BaseEntity {
     private String title; // title 필드 추가
 
     @Builder
-    public ActivityEntity(Long host, ActivityType type, String title, String thumbnail, String contents, Integer limit, LocalDate startDate, LocalDate endDate) {
+    public ActivityEntity(Long id, Long host, ActivityType type, String title, String thumbnail, String contents, Integer limit, LocalDate startDate, LocalDate endDate) {
+        this.id= id;
         this.hostId = host;
         this.type = type;
         this.title = title;
@@ -76,7 +77,7 @@ public class ActivityEntity extends BaseEntity {
 
     public static ActivityEntity from(Activity activity) {
         return ActivityEntity.builder()
-                .host(activity.getId())
+                .host(activity.getHost().getId())
                 .title(activity.getTitle())
                 .type(activity.getType())
                 .thumbnail(activity.getThumbnail())
@@ -85,13 +86,14 @@ public class ActivityEntity extends BaseEntity {
                 .startDate(activity.getStartDate())
                 .endDate(activity.getEndDate())
                 .host(activity.getHost().getId())
+                .id(activity.getId())
                 .build();
     }
 
     // ActivityEntity를 Activity 도메인 객체로 변환
     public Activity to() {
         return Activity.builder()
-                .id(getId())
+                .id(id)
                 .host(host.to())
                 .type(type)
                 .title(title)

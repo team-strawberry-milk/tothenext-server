@@ -40,24 +40,14 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity modifyActivity(Account account, ActivityModify req) {
-        ActivityEntity activityEntity = activityRepository.findById(req.getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
+        Activity activity = activityRepository.findById(req.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found")).to();
 
-        if (!activityEntity.getHost().getId().equals(account.getId())) {
+        if (!activity.getHost().getId().equals(account.getId())) {
             throw new AccessDeniedException("해당 대외활동을 수정할 권한이 없습니다.");
         }
 
-        Activity activity = activityEntity.to();
-        activity.changeActivity(req);
-
-        AccountEntity hostEntity = accountRepository.findById(activity.getHost().getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
-
-        // 수정된 Activity 도메인 객체를 fromDomain 메서드를 사용하여 ActivityEntity로 변환
-        activityEntity = ActivityEntity.fromDomain(activity, hostEntity);
-        activityRepository.save(activityEntity);
-
-        return activityEntity.to();
+        return activityRepository.save(ActivityEntity.from(activity)).to();
     }
 
 

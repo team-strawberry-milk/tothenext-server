@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Getter
 @RequiredArgsConstructor
 public class ActivityModify {
-
     @NotBlank private final Long id;
     @NotBlank private String title;
     @NotBlank private ActivityType type;
@@ -20,5 +19,4 @@ public class ActivityModify {
     @NotBlank private LocalDate endDate;
     @NotBlank private String contents;
     private String thumbnail;
-
 }
