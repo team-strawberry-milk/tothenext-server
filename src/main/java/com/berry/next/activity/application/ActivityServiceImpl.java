@@ -82,4 +82,10 @@ public class ActivityServiceImpl implements ActivityService {
                 .map(ActivityEntity::to)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "id값과 일치하는 대외활동이 존재하지 않습니다."));
     }
+
+    // TODO()
+    @Override
+    public List<Activity> getAppliedActivities(Account account) {
+        return null;
+    }
 }

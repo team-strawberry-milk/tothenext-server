@@ -17,4 +17,6 @@ public interface ActivityService {
     List<Activity> getRecentActivities();
 
     Activity getActivityById(Long id);
+
+    List<Activity> getAppliedActivities(Account account);
 }
