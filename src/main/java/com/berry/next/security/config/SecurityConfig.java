@@ -45,6 +45,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/accounts/signup/**").permitAll()
                                 .requestMatchers("/accounts/signin/**").permitAll()
+                                .requestMatchers("/accounts/reissue/**").permitAll()
                                 // .requestMatchers("/accounts/me").authenticated()
                                 .anyRequest().authenticated())
                 .addFilter(cors.securityCorsFilter())

@@ -1,0 +1,22 @@
+services:
+  spring-boot:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - my
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+    ports:
+      - 543:6379
+    networks:
+      - my
+
+
+networks:
+  my:

@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.time.Duration;
@@ -33,6 +34,14 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public String getTokenString(String token) {
+        if (StringUtils.hasText(token) && token.startsWith(BEARER_TYPE)) {
+            return token.substring(7);
+        }
+
+        return null;
+    }
+
     public String generateToken(String subject, Long expirationTime) {
         Long current = (new Date()).getTime();
 
@@ -45,6 +54,7 @@ public class JwtUtil {
         return BEARER_TYPE + token;
     }
 
+    /*
     public Token reissueToken(Authentication authentication, String refreshToken) {
         Long current = (new Date()).getTime();
 
@@ -63,6 +73,7 @@ public class JwtUtil {
                 .refreshToken(refreshToken)
                 .build();
     }
+     */
 
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
