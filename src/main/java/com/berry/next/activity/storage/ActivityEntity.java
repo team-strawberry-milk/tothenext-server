@@ -26,7 +26,6 @@ public class ActivityEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @MapsId
     private AccountEntity host;
 
     @Column(name = "host", nullable = false)
