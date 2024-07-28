@@ -21,12 +21,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "activity")
 @SQLDelete(sql = "UPDATE activity SET is_deleted = true WHERE id = ?")
-@SQLRestriction("select * from activity where is_deleted = false")
+@SQLRestriction("is_deleted = false")
 public class ActivityEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @MapsId
     private AccountEntity host;
 
     @Column(name = "host", nullable = false)

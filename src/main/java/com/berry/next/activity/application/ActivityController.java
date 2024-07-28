@@ -22,9 +22,8 @@ import java.util.stream.Collectors;
 public class ActivityController {
 
     private final ActivityService activityService;
-    private final JwtService jwtService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ActivityRes>> getActivityList() {
         return ResponseEntity.ok(
                 activityService.getAllActivities().stream()
