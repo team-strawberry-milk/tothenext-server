@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -15,11 +14,10 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor
 @Entity(name = "activity_apply")
 @SQLDelete(sql = "UPDATE activity_apply SET is_deleted = true WHERE id = ?")
-@SQLRestriction("select * from activity_apply where is_deleted = false")
+@SQLRestriction("is_deleted = false")
 public class ActivityApplyEntity extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @MapsId
     private AccountEntity account;
 
     @Column(name = "account", nullable = false)
@@ -27,7 +25,6 @@ public class ActivityApplyEntity extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @MapsId
     private ActivityEntity activity;
 
     @Column(name = "activity", nullable = false)
@@ -39,11 +36,9 @@ public class ActivityApplyEntity extends BaseTimeEntity {
     @Column(name = "detail", columnDefinition = "text")
     private String detail;
 
-    @ColumnDefault("0")
     @Column(name = "is_accepted")
     private Boolean isAccepted;
 
-    @ColumnDefault("0")
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
@@ -53,8 +48,8 @@ public class ActivityApplyEntity extends BaseTimeEntity {
         this.activityId = activityId;
         this.title = title;
         this.detail = detail;
-        this.isAccepted = isAccepted;
-        this.isDeleted = isDeleted;
+        this.isAccepted = (isAccepted != null) ? isAccepted : false;
+        this.isDeleted = (isDeleted != null) ? isDeleted : false;
     }
 
     public static ActivityApplyEntity from(ActivityApply domain) {

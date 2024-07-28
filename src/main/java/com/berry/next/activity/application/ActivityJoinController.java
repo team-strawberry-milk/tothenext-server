@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/activities/join")
 public class ActivityJoinController {
+
     private final ActivityJoinService activityJoinService;
 
     @PostMapping
@@ -26,4 +27,5 @@ public class ActivityJoinController {
         activityJoinService.apply(req.to(account));
         return ResponseEntity.ok("활동 신청을 성공하였습니다.");
     }
+
 }
