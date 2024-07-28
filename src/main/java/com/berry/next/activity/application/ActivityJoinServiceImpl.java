@@ -6,8 +6,10 @@ import com.berry.next.activity.storage.ActivityApplyEntity;
 import com.berry.next.activity.storage.ActivityApplyJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ActivityJoinServiceImpl implements ActivityJoinService {
 
@@ -20,6 +22,6 @@ public class ActivityJoinServiceImpl implements ActivityJoinService {
 
     @Override
     public void withdraw(Long applyId) {
-
+        applyRepository.deleteById(applyId);
     }
 }
