@@ -1,6 +1,8 @@
 package com.berry.next.activity.domain;
 
 import com.berry.next.account.domain.Account;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Getter;
 
