@@ -1,6 +1,7 @@
 package com.berry.next.activity.storage;
 
 import com.berry.next.account.storage.AccountEntity;
+import com.berry.next.activity.domain.ActivityApply;
 import com.berry.next.common.storage.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -54,5 +55,23 @@ public class ActivityApplyEntity extends BaseTimeEntity {
         this.detail = detail;
         this.isAccepted = isAccepted;
         this.isDeleted = isDeleted;
+    }
+
+    public static ActivityApplyEntity from(ActivityApply domain) {
+        return ActivityApplyEntity.builder()
+                .accountId(domain.getAccountId())
+                .activityId(domain.getActivityId())
+                .title(domain.getTitle())
+                .detail(domain.getDetail())
+                .build();
+    }
+
+    public ActivityApply to() {
+        return ActivityApply.builder()
+                .accountId(accountId)
+                .activityId(activityId)
+                .title(title)
+                .detail(detail)
+                .build();
     }
 }
