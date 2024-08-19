@@ -6,7 +6,6 @@ import com.berry.next.account.storage.AccountEntity;
 import com.berry.next.account.storage.AccountJpaRepository;
 import com.berry.next.external.AuthGoogleDto;
 import com.berry.next.external.GoogleAuthClient;
-import com.berry.next.external.GoogleClient;
 import com.berry.next.security.service.PasswordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,6 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountJpaRepository accountRepository;
     private final PasswordService passwordService;
-    private final GoogleClient googleClient;
     private final GoogleAuthClient googleAuthClient;
     @Value("${spring.security.oauth2.client.registration.google.client-id}") private String googleClientId;
     @Value("${spring.security.oauth2.client.registration.google.client-secret}") private String googleClientSecret;
@@ -102,8 +100,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void remove(Account account) {
-        accountRepository.findById(account.getId())
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 접근입니다."))
-                .delete();
+        accountRepository.deleteById(account.getId());
     }
 }

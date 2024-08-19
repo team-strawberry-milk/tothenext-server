@@ -6,10 +6,13 @@ import com.berry.next.account.domain.*;
 import com.berry.next.security.domain.AuthAccount;
 import com.berry.next.security.domain.Token;
 import com.berry.next.security.service.JwtService;
+import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,8 +38,11 @@ public class AccountController {
     @PostMapping("/signin")
     public ResponseEntity<Token> signIn(
             @RequestBody final AccountAuthorize request
-    ) {
-        return ResponseEntity.ok(jwtService.issue(accountService.authorize(request).getId()));
+    ) throws UnsupportedEncodingException {
+        Token token = jwtService.issue(accountService.authorize(request).getId());
+        return ResponseEntity.ok()
+                .header("Set-Cookie", jwtService.generateCookie(token.refreshToken()))
+                .body(token);
     }
 
     @PostMapping("/signin/google")
@@ -44,6 +50,13 @@ public class AccountController {
             @RequestBody final GoogleAccountReq request
     ) {
         return ResponseEntity.ok(jwtService.issue(accountService.authorizeWithGoogle(request).getId()));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<Token> reissue(
+            @CookieValue(value = "refreshToken") Cookie cookie
+    ) {
+        return ResponseEntity.ok(jwtService.reissue(cookie.getValue()));
     }
 
     @PostMapping("/verity/school")
